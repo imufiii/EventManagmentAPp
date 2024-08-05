@@ -52,6 +52,7 @@ const Form: React.FC<FormProps> = ({ onAddTask }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
+    margin: 10,
     backgroundColor: "#fff",
     borderRadius: 10,
     shadowColor: "#000",
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginHorizontal: 10,
     marginBottom: 20,
+    
   },
   input: {
     height: 40,
@@ -71,6 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "#f9f9f9",
   },
+
 });
 
 export default Form;

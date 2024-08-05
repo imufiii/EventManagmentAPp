@@ -40,16 +40,16 @@ const CompletedTasks: React.FC<CompletedTasksProps> = ({ tasks, onStatusChange, 
 const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
-    backgroundColor: "#f0f0f0",
+    
     paddingVertical: 10,
   },
   card: {
-    backgroundColor: "#e0f7fa", 
+   
     borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 10,
     padding: 15,
-    shadowColor: "#000",
+   
     shadowOffset: {
       width: 0,
       height: 2,

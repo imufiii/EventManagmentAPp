@@ -40,11 +40,11 @@ const OpenTasks: React.FC<OpenTasksProps> = ({ tasks, onStatusChange, onTaskRemo
 const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
-    backgroundColor: "#f0f0f0",
+
     paddingVertical: 10,
   },
   card: {
-    backgroundColor: "#fff", 
+ 
     borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 10,

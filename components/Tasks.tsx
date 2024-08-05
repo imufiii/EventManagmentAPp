@@ -33,6 +33,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks, onStatusChange, onTaskRemoval }) =
           onTaskRemoval={onTaskRemoval}
         />
       </View>
+      <View style={styles.divider} />
       <View style={styles.section}>
         <View style={styles.headerBar}>
           <Text style={styles.header}>Upcoming Events</Text>
@@ -50,17 +51,34 @@ const Tasks: React.FC<TasksProps> = ({ tasks, onStatusChange, onTaskRemoval }) =
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 15, 
   },
   section: {
     marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#f9f9f9', 
+    borderRadius: 8, 
+    elevation: 1, 
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 1 }, 
+    shadowOpacity: 0.1, 
+    shadowRadius: 2, 
   },
   headerBar: {
     marginBottom: 10,
+    backgroundColor: '#e0e0e0', 
+    borderRadius: 4, 
+    padding: 10, 
   },
   header: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#333', 
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#ccc', 
+    marginVertical: 15,
   },
 });
 

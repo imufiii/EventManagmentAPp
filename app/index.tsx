@@ -90,21 +90,21 @@ const App: React.FC = () => {
           name="Home"
           component={Screen1}
           options={{
-            tabBarIcon: ({ color, size }) => <FontAwesome name="home" size={size} color={color} />,
+            tabBarIcon: ({ color, size }) => <FontAwesome name="home" size={size} color={color} />,headerShown: false 
           }}
         />
         <Tab.Screen
-          name="Events"
+          name="Events" 
           children={() => <Tasks tasks={tasks} onStatusChange={handleStatusChange} onTaskRemoval={handleTaskRemoval} />}
-          options={{
-            tabBarIcon: ({ color, size }) => <FontAwesome5 name="calendar-alt" size={size} color={color} />,
+          options={{ 
+            tabBarIcon: ({ color, size }) => <FontAwesome5 name="calendar-alt" size={size} color={color} />, headerShown: false 
           }}
         />
         <Tab.Screen
           name="Form"
           children={() => <Form onAddTask={handleAddTask} />}
           options={{
-            tabBarIcon: ({ color, size }) => <Entypo name="add-to-list" size={size} color={color} />,
+            tabBarIcon: ({ color, size }) => <Entypo name="add-to-list" size={size} color={color} />,headerShown: false 
           }}
         />
       </Tab.Navigator>
