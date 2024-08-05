@@ -49,7 +49,7 @@ export const removeTask = async (taskId: string): Promise<void> => {
   try {
     const taskRef = doc(FIRESTORE_DB, 'tasks', taskId);
     await deleteDoc(taskRef);
-    alert("Your Have removed the task Succenfully")
+    alert("You Have removed the Event Succenfully")
   } catch (error) {
     
     throw error;
