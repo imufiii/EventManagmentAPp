@@ -17,9 +17,13 @@ interface TasksProps {
   onTaskRemoval: (id: string) => void;
 }
 
-const Tasks: React.FC<TasksProps> = ({ tasks, onStatusChange, onTaskRemoval }) => {
-  const completedTasks = tasks.filter(task => task.done);
-  const openTasks = tasks.filter(task => !task.done);
+const Tasks: React.FC<TasksProps> = ({
+  tasks,
+  onStatusChange,
+  onTaskRemoval,
+}) => {
+  const completedTasks = tasks.filter((task) => task.done);
+  const openTasks = tasks.filter((task) => !task.done);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -50,34 +54,35 @@ const Tasks: React.FC<TasksProps> = ({ tasks, onStatusChange, onTaskRemoval }) =
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 15, 
+    flexGrow: 1, 
+    padding: 15,
+    backgroundColor: "#fff", 
   },
   section: {
     marginBottom: 20,
     padding: 10,
-    backgroundColor: '#f9f9f9', 
-    borderRadius: 8, 
-    elevation: 1, 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 1 }, 
-    shadowOpacity: 0.1, 
-    shadowRadius: 2, 
+    backgroundColor: "#f9f9f9",
+    borderRadius: 8,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   headerBar: {
     marginBottom: 10,
-    backgroundColor: '#e0e0e0', 
-    borderRadius: 4, 
-    padding: 10, 
+    backgroundColor: "#e0e0e0",
+    borderRadius: 4,
+    padding: 10,
   },
   header: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333', 
+    fontWeight: "bold",
+    color: "#333",
   },
   divider: {
     height: 1,
-    backgroundColor: '#ccc', 
+    backgroundColor: "#ccc",
     marginVertical: 15,
   },
 });
