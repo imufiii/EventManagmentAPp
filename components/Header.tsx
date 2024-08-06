@@ -68,18 +68,6 @@ const Header: React.FC = () => {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => {
-                console.log("Close button pressed"); // Debugging
-                toggleMenu();
-              }}
-            >
-              <Image
-                source={require("../assets/images/close_icon.png")}
-                style={styles.menuIcon}
-              />
-            </TouchableOpacity>
             <FlatList
               data={menuItems}
               renderItem={({ item }) => (
@@ -91,6 +79,17 @@ const Header: React.FC = () => {
                 </TouchableOpacity>
               )}
               keyExtractor={(item) => item}
+              ListHeaderComponent={
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={toggleMenu}
+                >
+                  <Image
+                    source={require("../assets/images/close_icon.png")}
+                    style={[styles.menuIcon, { tintColor: "#7D236C" }]}
+                  />
+                </TouchableOpacity>
+              }
             />
           </View>
         </View>
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    pointerEvents: "box-none", // Allow touch events to pass through
+    pointerEvents: "box-none",
   },
   modalContainer: {
     width: 200,
@@ -158,10 +157,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   closeButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
     padding: 10,
+    alignSelf: "flex-end",
   },
   closeButtonText: {
     fontSize: 24,
