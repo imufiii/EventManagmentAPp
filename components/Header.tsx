@@ -26,8 +26,21 @@ const Header: React.FC = () => {
     if (item === "About") {
       navigation.navigate("About");
     } else if (item === "Logout") {
-      handleLogout();
+      showLogoutConfirmation();
     }
+  };
+
+  const showLogoutConfirmation = () => {
+    Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Logout",
+        onPress: handleLogout,
+      },
+    ]);
   };
 
   const handleLogout = async () => {
@@ -37,10 +50,6 @@ const Header: React.FC = () => {
     } catch (error) {
       Alert.alert("Logout failed", (error as Error).message);
     }
-  };
-
-  const handleGoBack = () => {
-    navigation.goBack();
   };
 
   const menuItems = ["About", "Logout"];
