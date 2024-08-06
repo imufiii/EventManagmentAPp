@@ -5,7 +5,10 @@ const Header: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.leftGroup}>
-        <Image source={require("../assets/images/party.jpeg")} style={styles.logo} />
+        <Image
+          source={require("../assets/images/party.jpeg")}
+          style={styles.logo}
+        />
         <Text style={styles.title}>Event Manager App</Text>
       </View>
     </View>

@@ -1,23 +1,102 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import { View, Alert } from "react-native";
 import { FontAwesome, FontAwesome5, Entypo } from "@expo/vector-icons";
-import { loadTasks, addTask, updateTask, removeTask, TaskProps } from "../components/databse"; 
+import { AUTH } from "../firebaseConfig";
+import {
+  loadTasks,
+  addTask,
+  updateTask,
+  removeTask,
+  TaskProps,
+} from "../components/databse";
 import Header from "../components/Header";
-
 import Screen1 from "../components/Screen1";
 import Tasks from "../components/Tasks";
 import Form from "../components/Form";
+import Login from "../components/Login";
+import Signup from "../components/Signup";
+import About from "../components/About";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const HomeTabs: React.FC<{
+  tasks: TaskProps[];
+  handleStatusChange: (id: string) => void;
+  handleTaskRemoval: (id: string) => void;
+  handleAddTask: (
+    taskDescription: string,
+    taskDate: string,
+    taskTime: string
+  ) => void;
+}> = ({ tasks, handleStatusChange, handleTaskRemoval, handleAddTask }) => (
+  <>
+    <Header />
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        component={Screen1}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="home" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Events"
+        children={() => (
+          <Tasks
+            tasks={tasks}
+            onStatusChange={handleStatusChange}
+            onTaskRemoval={handleTaskRemoval}
+          />
+        )}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="calendar-alt" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Form"
+        children={() => <Form onAddTask={handleAddTask} />}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="add-to-list" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="About"
+        component={About}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="info-circle" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  </>
+);
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const [user, setUser] = useState<any>(null);
 
-  const handleAddTask = async (taskDescription: string, taskDate: string, taskTime: string) => {
-    const newTask: Omit<TaskProps, 'id'> = {
+  const handleAddTask = async (
+    taskDescription: string,
+    taskDate: string,
+    taskTime: string
+  ) => {
+    const newTask: Omit<TaskProps, "id"> = {
       description: taskDescription,
       done: false,
       date: taskDate,
@@ -25,11 +104,9 @@ const App: React.FC = () => {
     };
 
     try {
-     
       const docRef = await addTask(newTask);
-      
       const newTaskWithId = { id: docRef.id, ...newTask };
-      setTasks([...tasks, newTaskWithId]); 
+      setTasks([...tasks, newTaskWithId]);
     } catch (error) {
       Alert.alert("Ooops", "Failed to add Event. Please try again.");
     }
@@ -43,72 +120,80 @@ const App: React.FC = () => {
       return task;
     });
 
-    setTasks(updatedTasks); 
+    setTasks(updatedTasks);
 
     const updatedTask = updatedTasks.find((task) => task.id === id);
     if (updatedTask) {
       try {
         await updateTask(updatedTask);
       } catch (error) {
-        Alert.alert("Ooops", "Failed to update Event status. Please try again.");
+        Alert.alert(
+          "Ooops",
+          "Failed to update Event status. Please try again."
+        );
       }
     }
   };
 
   const handleTaskRemoval = async (id: string) => {
-   
-
     try {
-      await removeTask(id); 
-      setTasks(tasks.filter((task) => task.id !== id)); 
+      await removeTask(id);
+      setTasks(tasks.filter((task) => task.id !== id));
     } catch (error) {
       Alert.alert("Ooops", "Failed to remove Event. Please try again.");
-      
     }
   };
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const loadedTasks = await loadTasks(); 
-        setTasks(loadedTasks); 
+        const loadedTasks = await loadTasks();
+        setTasks(loadedTasks);
       } catch (error) {
         Alert.alert("Ooops", "Failed to load Events. Please try again.");
       }
     };
 
     fetchTasks();
+
+    const unsubscribe = AUTH.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return unsubscribe;
   }, []);
 
   return (
     <NavigationContainer independent={true}>
-        <View style={{ flex: 1 }}>
-        <StatusBar style="auto" />
-        <Header />
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          component={Screen1}
-          options={{
-            tabBarIcon: ({ color, size }) => <FontAwesome name="home" size={size} color={color} />,headerShown: false 
-          }}
-        />
-        <Tab.Screen
-          name="Events" 
-          children={() => <Tasks tasks={tasks} onStatusChange={handleStatusChange} onTaskRemoval={handleTaskRemoval} />}
-          options={{ 
-            tabBarIcon: ({ color, size }) => <FontAwesome5 name="calendar-alt" size={size} color={color} />, headerShown: false 
-          }}
-        />
-        <Tab.Screen
-          name="Form"
-          children={() => <Form onAddTask={handleAddTask} />}
-          options={{
-            tabBarIcon: ({ color, size }) => <Entypo name="add-to-list" size={size} color={color} />,headerShown: false 
-          }}
-        />
-      </Tab.Navigator>
-      </View>
+      <StatusBar style="auto" />
+      <Stack.Navigator>
+        {user ? (
+          <Stack.Screen name="HomeTabs" options={{ headerShown: false }}>
+            {(props) => (
+              <HomeTabs
+                {...props}
+                tasks={tasks}
+                handleStatusChange={handleStatusChange}
+                handleTaskRemoval={handleTaskRemoval}
+                handleAddTask={handleAddTask}
+              />
+            )}
+          </Stack.Screen>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

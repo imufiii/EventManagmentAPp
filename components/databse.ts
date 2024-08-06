@@ -1,5 +1,12 @@
-import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, where, DocumentReference } from "firebase/firestore";
-import { FIRESTORE_DB } from '../firebaseConfig';
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDocs,
+  doc,
+} from "firebase/firestore";
+import { FIRESTORE_DB } from "../firebaseConfig";
 
 export interface TaskProps {
   id: string;
@@ -9,49 +16,38 @@ export interface TaskProps {
   time: string;
 }
 
+const TASK_COLLECTION = "tasks";
 
 export const loadTasks = async (): Promise<TaskProps[]> => {
-  try {
-    const snapshot = await getDocs(collection(FIRESTORE_DB, 'tasks'));
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() as TaskProps }));
-  } catch (error) {
-    
-    throw error;
-  }
+  const taskCollection = collection(FIRESTORE_DB, TASK_COLLECTION);
+  const taskSnapshot = await getDocs(taskCollection);
+  const tasks: TaskProps[] = taskSnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      } as TaskProps)
+  );
+  return tasks;
 };
 
-
-export const addTask = async (task: Omit<TaskProps, 'id'>): Promise<DocumentReference> => {
-  try {
-    const docRef = await addDoc(collection(FIRESTORE_DB, 'tasks'), task);
-    
-    return docRef;
-  } catch (error) {
-   
-    throw error;
-  }
+export const addTask = async (task: Omit<TaskProps, "id">): Promise<any> => {
+  const taskCollection = collection(FIRESTORE_DB, TASK_COLLECTION);
+  const docRef = await addDoc(taskCollection, task);
+  return docRef;
 };
-
 
 export const updateTask = async (task: TaskProps): Promise<void> => {
-  try {
-    const taskRef = doc(FIRESTORE_DB, 'tasks', task.id);
-    await updateDoc(taskRef, { done: task.done });
-   
-  } catch (error) {
-    
-    throw error;
-  }
+  const taskDoc = doc(FIRESTORE_DB, TASK_COLLECTION, task.id);
+  await updateDoc(taskDoc, {
+    description: task.description,
+    done: task.done,
+    date: task.date,
+    time: task.time,
+  });
 };
 
-
-export const removeTask = async (taskId: string): Promise<void> => {
-  try {
-    const taskRef = doc(FIRESTORE_DB, 'tasks', taskId);
-    await deleteDoc(taskRef);
-    alert("You Have removed the Event Succenfully")
-  } catch (error) {
-    
-    throw error;
-  }
+export const removeTask = async (id: string): Promise<void> => {
+  const taskDoc = doc(FIRESTORE_DB, TASK_COLLECTION, id);
+  await deleteDoc(taskDoc);
 };
