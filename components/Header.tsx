@@ -39,6 +39,10 @@ const Header: React.FC = () => {
     }
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   const menuItems = ["About", "Logout"];
 
   return (
@@ -52,8 +56,8 @@ const Header: React.FC = () => {
       </View>
       <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
         <Image
-          source={require("../assets/images/menu_icon.png")} // Replace with your menu icon image
-          style={[styles.menuIcon, { tintColor: "#7D236C" }]} // Apply font color to the icon
+          source={require("../assets/images/menu_icon.png")}
+          style={[styles.menuIcon, { tintColor: "#7D236C" }]}
         />
       </TouchableOpacity>
       <Modal
@@ -64,10 +68,16 @@ const Header: React.FC = () => {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <TouchableOpacity style={styles.closeButton} onPress={toggleMenu}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => {
+                console.log("Close button pressed"); // Debugging
+                toggleMenu();
+              }}
+            >
               <Image
-                source={require("../assets/images/close_icon.png")} // Replace with your menu icon image
-                style={[styles.menuIcon, { tintColor: "#7D236C" }]} // Apply font color to the icon
+                source={require("../assets/images/close_icon.png")}
+                style={styles.menuIcon}
               />
             </TouchableOpacity>
             <FlatList
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
     paddingBottom: 15,
-    paddingTop: 10, // Adjusted padding
+    paddingTop: 10,
     paddingHorizontal: 10,
   },
   leftGroup: {
@@ -133,6 +143,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    pointerEvents: "box-none", // Allow touch events to pass through
   },
   modalContainer: {
     width: 200,
@@ -150,7 +161,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-    padding: 5,
+    padding: 10,
   },
   closeButtonText: {
     fontSize: 24,
