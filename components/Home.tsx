@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, TextInput, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TextInput, Alert, TouchableOpacity, Linking } from "react-native";
 import { Picker } from '@react-native-picker/picker';
+import { FontAwesome } from '@expo/vector-icons'; 
 
 const HomePage = () => {
   const [locationQuery, setLocationQuery] = useState("");
@@ -18,32 +19,25 @@ const HomePage = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
-        <Text style={styles.title}>Gemstone Event Management Inc. (GEM)</Text>
+        <Text style={styles.title}>lorem</Text>
         <Text style={styles.description}>
-          GEM specializes in Virtual, Hybrid & In-Person Events. If you’ll be hosting an event in London or the area,
-          they can assist with the planning, managing, and executing of your event, whether it’s virtual, hybrid, or
-          in-person. Contact them for a consultation and discuss the goals & objectives of your event so they can offer
-          some creative options and bring them to reality. Events are important, staying connected with their people is
-          important now, more than ever.
+       lorem
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => Linking.openURL("http://www.gemstone-events.com")}>
-        <Text style={styles.buttonText}>Visit Website</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={() => Linking.openURL("mailto:info@gemstone-events.com")}>
-        <Text style={styles.buttonText}>Contact Us</Text>
-      </TouchableOpacity>
-
       <View style={styles.section}>
         <Text style={styles.subTitle}>Search Nearby Places</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter location"
-          value={locationQuery}
-          onChangeText={setLocationQuery}
-        />
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter location"
+            value={locationQuery}
+            onChangeText={setLocationQuery}
+          />
+          <TouchableOpacity style={styles.iconButton} onPress={handleOpenGoogleMaps}>
+            <FontAwesome name="search" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedCategory}
@@ -57,10 +51,15 @@ const HomePage = () => {
             <Picker.Item label="Tourist Attractions" value="tourist attractions" />
           </Picker>
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleOpenGoogleMaps}>
-          <Text style={styles.buttonText}>Search</Text>
-        </TouchableOpacity>
       </View>
+
+      <TouchableOpacity onPress={() => Linking.openURL("https://event-ova.vercel.app")}>
+        <Text style={styles.linkText}>Visit Website</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => Linking.openURL("mailto:evetify@hmail.com")}>
+        <Text style={styles.linkText}>Contact Us</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -83,18 +82,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
   },
-  button: {
-    backgroundColor: "#007bff",
-    padding: 15,
-    borderRadius: 5,
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
   subTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -105,19 +92,38 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10,
     fontSize: 16,
+    flex: 1,
+    marginRight: 10,
   },
   pickerContainer: {
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
+    fontWeight: "bold",
     overflow: 'hidden',
     marginBottom: 10,
+
   },
   picker: {
     height: 50,
     width: "100%",
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  iconButton: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 5,
+  },
+  linkText: {
+    color: "#007bff",
+    fontSize: 16,
+    textDecorationLine: "underline",
+    marginBottom: 10,
   },
 });
 
