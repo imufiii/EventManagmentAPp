@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "firebase/auth";
 import { AUTH } from "../firebaseConfig";
@@ -17,7 +25,11 @@ const About: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        source={require("../assets/images/about_us.png")}
+        style={styles.image}
+      />
       <Text style={styles.title}>About Us</Text>
       <Text style={styles.text}>Welcome to the Event Manager App!</Text>
       <Text style={styles.text}>
@@ -26,14 +38,18 @@ const About: React.FC = () => {
         Whether you're planning a party, a meeting, or just organizing your
         schedule, this app is designed to make your life easier.
       </Text>
-      <Text style={styles.text}>Features:</Text>
-      <Text style={styles.text}>
-        - Add new events with descriptions, dates, and times
-      </Text>
-      <Text style={styles.text}>
-        - Update the status of events to keep track of their progress
-      </Text>
-      <Text style={styles.text}>- Remove events that are no longer needed</Text>
+      <Text style={styles.subtitle}>Features:</Text>
+      <View style={styles.featureList}>
+        <Text style={styles.featureItem}>
+          • Add new events with descriptions, dates, and times
+        </Text>
+        <Text style={styles.featureItem}>
+          • Update the status of events to keep track of their progress
+        </Text>
+        <Text style={styles.featureItem}>
+          • Remove events that are no longer needed
+        </Text>
+      </View>
       <Text style={styles.text}>
         We hope you find this app useful and easy to use. If you have any
         feedback or suggestions, please let us know!
@@ -41,37 +57,65 @@ const About: React.FC = () => {
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
-    backgroundColor: "#f5f5f5",
+    padding: 20,
+    backgroundColor: "#ffffff",
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
+    color: "#333",
     marginBottom: 16,
   },
   text: {
     fontSize: 16,
+    color: "#666",
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 10,
+  },
+  featureList: {
+    marginBottom: 16,
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+  featureItem: {
+    fontSize: 16,
+    color: "#555",
+    marginBottom: 6,
   },
   logoutButton: {
     marginTop: 20,
-    padding: 10,
-    backgroundColor: "#FF4D4D",
-    borderRadius: 5,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderColor: "#FF4D4D",
+    borderWidth: 2,
+    borderRadius: 8,
+    backgroundColor: "transparent",
+    width: "100%",
+    alignItems: "center",
   },
   logoutButtonText: {
     fontSize: 16,
-    color: "#fff",
+    color: "#FF4D4D",
     textAlign: "center",
   },
 });
