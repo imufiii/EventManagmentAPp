@@ -1,11 +1,4 @@
-import {
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  getDocs,
-  doc,
-} from "firebase/firestore";
+import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../firebaseConfig";
 
 export interface TaskProps {
@@ -16,29 +9,30 @@ export interface TaskProps {
   time: string;
 }
 
-const TASK_COLLECTION = "tasks";
 
-export const loadTasks = async (): Promise<TaskProps[]> => {
-  const taskCollection = collection(FIRESTORE_DB, TASK_COLLECTION);
+const getUserCollection = (userId: string) => collection(FIRESTORE_DB, `users/${userId}/tasks`);
+
+
+export const loadTasks = async (userId: string): Promise<TaskProps[]> => {
+  const taskCollection = getUserCollection(userId);
   const taskSnapshot = await getDocs(taskCollection);
-  const tasks: TaskProps[] = taskSnapshot.docs.map(
-    (doc) =>
-      ({
-        id: doc.id,
-        ...doc.data(),
-      } as TaskProps)
-  );
+  const tasks: TaskProps[] = taskSnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  } as TaskProps));
   return tasks;
 };
 
-export const addTask = async (task: Omit<TaskProps, "id">): Promise<any> => {
-  const taskCollection = collection(FIRESTORE_DB, TASK_COLLECTION);
+
+export const addTask = async (userId: string, task: Omit<TaskProps, "id">): Promise<any> => {
+  const taskCollection = getUserCollection(userId);
   const docRef = await addDoc(taskCollection, task);
   return docRef;
 };
 
-export const updateTask = async (task: TaskProps): Promise<void> => {
-  const taskDoc = doc(FIRESTORE_DB, TASK_COLLECTION, task.id);
+
+export const updateTask = async (userId: string, task: TaskProps): Promise<void> => {
+  const taskDoc = doc(FIRESTORE_DB, `users/${userId}/tasks`, task.id);
   await updateDoc(taskDoc, {
     description: task.description,
     done: task.done,
@@ -47,7 +41,8 @@ export const updateTask = async (task: TaskProps): Promise<void> => {
   });
 };
 
-export const removeTask = async (id: string): Promise<void> => {
-  const taskDoc = doc(FIRESTORE_DB, TASK_COLLECTION, id);
+
+export const removeTask = async (userId: string, id: string): Promise<void> => {
+  const taskDoc = doc(FIRESTORE_DB, `users/${userId}/tasks`, id);
   await deleteDoc(taskDoc);
 };

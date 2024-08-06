@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import { View, Alert } from "react-native";
-import { FontAwesome,Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { AUTH } from "../firebaseConfig";
 import {
   loadTasks,
@@ -36,27 +36,25 @@ const HomeTabs: React.FC<{
 }> = ({ tasks, handleStatusChange, handleTaskRemoval, handleAddTask }) => (
   <>
     <Header />
-    <Tab.Navigator  screenOptions={{
-          tabBarActiveTintColor: '#7D236C',
-          tabBarInactiveTintColor: '#8e8e8e',
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: 'bold',
-          },
-          tabBarStyle: {
-            backgroundColor: '#f8f8f8',
-          }
-        }}>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: '#7D236C',
+        tabBarInactiveTintColor: '#8e8e8e',
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: 'bold',
+        },
+        tabBarStyle: {
+          backgroundColor: '#f8f8f8',
+        }
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={Screen1}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons 
-            name="home-outline" 
-            size={size} 
-            color={color} 
-            />
+            <Ionicons name="home-outline" size={size} color={color} />
           ),
           headerShown: false,
         }}
@@ -72,10 +70,7 @@ const HomeTabs: React.FC<{
         )}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons 
-            name="calendar-outline" 
-            size={size} 
-            color={color} />
+            <Ionicons name="calendar-outline" size={size} color={color} />
           ),
           headerShown: false,
         }}
@@ -85,10 +80,7 @@ const HomeTabs: React.FC<{
         children={() => <Form onAddTask={handleAddTask} />}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons 
-            name="add-circle-outline" 
-            size={size} 
-            color={color} />
+            <Ionicons name="add-circle-outline" size={size} color={color} />
           ),
           headerShown: false,
         }}
@@ -98,10 +90,7 @@ const HomeTabs: React.FC<{
         component={About}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome 
-            name="info-circle" 
-            size={size} 
-            color={color} />
+            <FontAwesome name="info-circle" size={size} color={color} />
           ),
           headerShown: false,
         }}
@@ -126,12 +115,14 @@ const App: React.FC = () => {
       time: taskTime,
     };
 
-    try {
-      const docRef = await addTask(newTask);
-      const newTaskWithId = { id: docRef.id, ...newTask };
-      setTasks([...tasks, newTaskWithId]);
-    } catch (error) {
-      Alert.alert("Ooops", "Failed to add Event. Please try again.");
+    if (user) {
+      try {
+        const docRef = await addTask(user.uid, newTask);
+        const newTaskWithId = { id: docRef.id, ...newTask };
+        setTasks([...tasks, newTaskWithId]);
+      } catch (error) {
+        Alert.alert("Ooops", "Failed to add Event. Please try again.");
+      }
     }
   };
 
@@ -146,34 +137,35 @@ const App: React.FC = () => {
     setTasks(updatedTasks);
 
     const updatedTask = updatedTasks.find((task) => task.id === id);
-    if (updatedTask) {
+    if (updatedTask && user) {
       try {
-        await updateTask(updatedTask);
+        await updateTask(user.uid, updatedTask);
       } catch (error) {
-        Alert.alert(
-          "Ooops",
-          "Failed to update Event status. Please try again."
-        );
+        Alert.alert("Ooops", "Failed to update Event status. Please try again.");
       }
     }
   };
 
   const handleTaskRemoval = async (id: string) => {
-    try {
-      await removeTask(id);
-      setTasks(tasks.filter((task) => task.id !== id));
-    } catch (error) {
-      Alert.alert("Ooops", "Failed to remove Event. Please try again.");
+    if (user) {
+      try {
+        await removeTask(user.uid, id);
+        setTasks(tasks.filter((task) => task.id !== id));
+      } catch (error) {
+        Alert.alert("Ooops", "Failed to remove Event. Please try again.");
+      }
     }
   };
 
   useEffect(() => {
     const fetchTasks = async () => {
-      try {
-        const loadedTasks = await loadTasks();
-        setTasks(loadedTasks);
-      } catch (error) {
-        Alert.alert("Ooops", "Failed to load Events. Please try again.");
+      if (user) {
+        try {
+          const loadedTasks = await loadTasks(user.uid);
+          setTasks(loadedTasks);
+        } catch (error) {
+          Alert.alert("Ooops", "Failed to load Events. Please try again.");
+        }
       }
     };
 
@@ -184,7 +176,7 @@ const App: React.FC = () => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [user]);
 
   return (
     <NavigationContainer independent={true}>
@@ -204,16 +196,8 @@ const App: React.FC = () => {
           </Stack.Screen>
         ) : (
           <>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={Signup}
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
           </>
         )}
       </Stack.Navigator>
