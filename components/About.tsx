@@ -31,7 +31,7 @@ const About: React.FC = () => {
         style={styles.image}
       />
       <Text style={styles.title}>About Us</Text>
-      <Text style={styles.text}>Welcome to the Event Manager App!</Text>
+      <Text style={styles.text}>Welcome to the Eventify</Text>
       <Text style={styles.text}>
         This app helps you efficiently manage your tasks and events. You can
         add, update, and remove events, and keep track of their statuses.

@@ -9,7 +9,7 @@ const Header: React.FC = () => {
           source={require("../assets/images/logo.png")}
           style={styles.logo}
         />
-        <Text style={styles.title}>Event Manager App</Text>
+        <Text style={styles.title}>Eventify</Text>
       </View>
     </View>
   );
