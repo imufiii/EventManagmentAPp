@@ -3,8 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
-import { View, Alert } from "react-native";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { View, Alert, TouchableOpacity, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { AUTH } from "../firebaseConfig";
 import {
   loadTasks,
@@ -38,15 +38,15 @@ const HomeTabs: React.FC<{
     <Header />
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: '#7D236C',
-        tabBarInactiveTintColor: '#8e8e8e',
+        tabBarActiveTintColor: "#7D236C",
+        tabBarInactiveTintColor: "#8e8e8e",
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: 'bold',
+          fontWeight: "bold",
         },
         tabBarStyle: {
-          backgroundColor: '#f8f8f8',
-        }
+          backgroundColor: "#f8f8f8",
+        },
       }}
     >
       <Tab.Screen
@@ -81,16 +81,6 @@ const HomeTabs: React.FC<{
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle-outline" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="About"
-        component={About}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="info-circle" size={size} color={color} />
           ),
           headerShown: false,
         }}
@@ -141,7 +131,10 @@ const App: React.FC = () => {
       try {
         await updateTask(user.uid, updatedTask);
       } catch (error) {
-        Alert.alert("Ooops", "Failed to update Event status. Please try again.");
+        Alert.alert(
+          "Ooops",
+          "Failed to update Event status. Please try again."
+        );
       }
     }
   };
@@ -183,21 +176,55 @@ const App: React.FC = () => {
       <StatusBar style="auto" />
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="HomeTabs" options={{ headerShown: false }}>
-            {(props) => (
-              <HomeTabs
-                {...props}
-                tasks={tasks}
-                handleStatusChange={handleStatusChange}
-                handleTaskRemoval={handleTaskRemoval}
-                handleAddTask={handleAddTask}
-              />
-            )}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="HomeTabs" options={{ headerShown: false }}>
+              {(props) => (
+                <HomeTabs
+                  {...props}
+                  tasks={tasks}
+                  handleStatusChange={handleStatusChange}
+                  handleTaskRemoval={handleTaskRemoval}
+                  handleAddTask={handleAddTask}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen
+              name="About"
+              component={About}
+              options={({ navigation }) => ({
+                headerShown: true, 
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      padding: 10,
+                    }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Ionicons name="arrow-back" size={24} color="#007BFF" />
+                    <Text
+                      style={{ marginLeft: 5, fontSize: 16, color: "#007BFF" }}
+                    >
+                      Back
+                    </Text>
+                  </TouchableOpacity>
+                ),
+              })}
+            />
+          </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={{ headerShown: false }}
+            />
           </>
         )}
       </Stack.Navigator>

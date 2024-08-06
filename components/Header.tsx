@@ -24,16 +24,16 @@ const Header: React.FC = () => {
   const handleMenuItemPress = (item: string) => {
     setMenuVisible(false);
     if (item === "About") {
-      navigation.navigate("About"); 
+      navigation.navigate("About");
     } else if (item === "Logout") {
-      handleLogout(); 
+      handleLogout();
     }
   };
 
   const handleLogout = async () => {
     try {
       await signOut(AUTH);
-      navigation.navigate("Login"); 
+      navigation.navigate("Login");
     } catch (error) {
       Alert.alert("Logout failed", (error as Error).message);
     }
@@ -52,8 +52,8 @@ const Header: React.FC = () => {
       </View>
       <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
         <Image
-          source={require("../assets/images/logo.png")} // Replace with your menu icon image
-          style={styles.menuIcon}
+          source={require("../assets/images/menu_icon.png")} // Replace with your menu icon image
+          style={[styles.menuIcon, { tintColor: "#7D236C" }]} // Apply font color to the icon
         />
       </TouchableOpacity>
       <Modal
@@ -65,7 +65,10 @@ const Header: React.FC = () => {
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             <TouchableOpacity style={styles.closeButton} onPress={toggleMenu}>
-              <Text style={styles.closeButtonText}>×</Text>
+              <Image
+                source={require("../assets/images/close_icon.png")} // Replace with your menu icon image
+                style={[styles.menuIcon, { tintColor: "#7D236C" }]} // Apply font color to the icon
+              />
             </TouchableOpacity>
             <FlatList
               data={menuItems}
@@ -89,9 +92,9 @@ const Header: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     alignSelf: "stretch",
-    alignItems: "center",
-    justifyContent: "space-between",
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: "white",
     borderBottomColor: "#7D236C",
     borderBottomWidth: 0.5,
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 5,
     paddingBottom: 15,
-    paddingTop: 30,
+    paddingTop: 10, // Adjusted padding
     paddingHorizontal: 10,
   },
   leftGroup: {
@@ -112,18 +115,13 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: "#7D236C",
     fontWeight: "bold",
-    alignSelf: "flex-end",
     marginLeft: 10,
-    marginBottom: 7,
   },
   logo: {
     width: 50,
     height: 50,
   },
   menuButton: {
-    position: "absolute",
-    right: 10,
-    top: 10,
     padding: 10,
   },
   menuIcon: {

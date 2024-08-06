@@ -1,29 +1,7 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  Image,
-  ScrollView,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { signOut } from "firebase/auth";
-import { AUTH } from "../firebaseConfig";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 
 const About: React.FC = () => {
-  const navigation = useNavigation();
-
-  const handleLogout = async () => {
-    try {
-      await signOut(AUTH);
-      navigation.navigate("Login");
-    } catch (error) {
-      Alert.alert("Logout failed", (error as Error).message);
-    }
-  };
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -54,9 +32,6 @@ const About: React.FC = () => {
         We hope you find this app useful and easy to use. If you have any
         feedback or suggestions, please let us know!
       </Text>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -100,22 +75,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#555",
     marginBottom: 6,
-  },
-  logoutButton: {
-    marginTop: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderColor: "#FF4D4D",
-    borderWidth: 2,
-    borderRadius: 8,
-    backgroundColor: "transparent",
-    width: "100%",
-    alignItems: "center",
-  },
-  logoutButtonText: {
-    fontSize: 16,
-    color: "#FF4D4D",
-    textAlign: "center",
   },
 });
 
