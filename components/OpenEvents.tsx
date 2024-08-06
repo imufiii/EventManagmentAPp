@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   noTasksText: {
     fontSize: 14,
     color: "#666",
+    fontWeight: "bold",
   },
   helpText: {
     fontSize: 14,

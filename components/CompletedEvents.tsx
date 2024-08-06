@@ -28,21 +28,23 @@ const CompletedTasks: React.FC<CompletedTasksProps> = ({
         <View style={styles.noTasksContainer}>
           <Text style={styles.noTasksText}>No completed events</Text>
           <Text style={styles.helpText}>
-            Complete some tasks to see them here
+            Complete some events to see them here.
           </Text>
         </View>
       ) : (
         tasks.map((task) => (
           <Card containerStyle={styles.card} key={task.id}>
-            <Image
-              source={require("../assets/images/completed.jpg")}
-              style={styles.image}
-            />
-            <Task
-              task={task}
-              onStatusChange={onStatusChange}
-              onTaskRemoval={onTaskRemoval}
-            />
+            <View>
+              <Image
+                source={require("../assets/images/completed.jpg")}
+                style={styles.image}
+              />
+              <Task
+                task={task}
+                onStatusChange={onStatusChange}
+                onTaskRemoval={onTaskRemoval}
+              />
+            </View>
           </Card>
         ))
       )}
@@ -76,6 +78,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   noTasksText: {
+    fontWeight: "bold",
     fontSize: 14,
     color: "#666",
   },
