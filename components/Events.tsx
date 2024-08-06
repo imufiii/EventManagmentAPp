@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import CompletedTasks from "./CompletedTask";
-import OpenTasks from "./ OpenTasks";
+import CompletedTasks from "./CompletedEvents";
+import OpenTasks from "./OpenEvents";
 
 interface TaskProps {
   id: string;

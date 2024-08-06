@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, View, Image, StyleSheet } from "react-native";
 import { Card } from "react-native-elements";
-import Task from "./Task";
+import Task from "./Event";
 
 interface TaskProps {
   id: string;

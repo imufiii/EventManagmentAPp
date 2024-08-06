@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import { View, Alert } from "react-native";
-import { FontAwesome, FontAwesome5, Entypo } from "@expo/vector-icons";
+import { FontAwesome,Ionicons } from "@expo/vector-icons";
 import { AUTH } from "../firebaseConfig";
 import {
   loadTasks,
@@ -12,11 +12,11 @@ import {
   updateTask,
   removeTask,
   TaskProps,
-} from "../components/databse";
+} from "../components/Databse";
 import Header from "../components/Header";
-import Screen1 from "../components/Screen1";
-import Tasks from "../components/Tasks";
-import Form from "../components/Form";
+import Screen1 from "../components/Home";
+import Tasks from "../components/Events";
+import Form from "../components/AddEvents";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import About from "../components/About";
@@ -36,13 +36,27 @@ const HomeTabs: React.FC<{
 }> = ({ tasks, handleStatusChange, handleTaskRemoval, handleAddTask }) => (
   <>
     <Header />
-    <Tab.Navigator>
+    <Tab.Navigator  screenOptions={{
+          tabBarActiveTintColor: '#7D236C',
+          tabBarInactiveTintColor: '#8e8e8e',
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'bold',
+          },
+          tabBarStyle: {
+            backgroundColor: '#f8f8f8',
+          }
+        }}>
       <Tab.Screen
         name="Home"
         component={Screen1}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="home" size={size} color={color} />
+            <Ionicons 
+            name="home-outline" 
+            size={size} 
+            color={color} 
+            />
           ),
           headerShown: false,
         }}
@@ -58,7 +72,10 @@ const HomeTabs: React.FC<{
         )}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="calendar-alt" size={size} color={color} />
+            <Ionicons 
+            name="calendar-outline" 
+            size={size} 
+            color={color} />
           ),
           headerShown: false,
         }}
@@ -68,7 +85,10 @@ const HomeTabs: React.FC<{
         children={() => <Form onAddTask={handleAddTask} />}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="add-to-list" size={size} color={color} />
+            <Ionicons 
+            name="add-circle-outline" 
+            size={size} 
+            color={color} />
           ),
           headerShown: false,
         }}
@@ -78,7 +98,10 @@ const HomeTabs: React.FC<{
         component={About}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="info-circle" size={size} color={color} />
+            <FontAwesome 
+            name="info-circle" 
+            size={size} 
+            color={color} />
           ),
           headerShown: false,
         }}

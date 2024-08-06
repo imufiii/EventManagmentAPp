@@ -6,7 +6,7 @@ const Header: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.leftGroup}>
         <Image
-          source={require("../assets/images/party.jpeg")}
+          source={require("../assets/images/logo.png")}
           style={styles.logo}
         />
         <Text style={styles.title}>Event Manager App</Text>
