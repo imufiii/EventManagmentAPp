@@ -12,7 +12,7 @@ import {
   updateTask,
   removeTask,
   TaskProps,
-} from "../components/Databse";
+} from "../components/databse";
 import Header from "../components/Header";
 import Screen1 from "../components/Home";
 import Tasks from "../components/Events";
