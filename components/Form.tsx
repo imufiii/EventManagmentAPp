@@ -44,7 +44,7 @@ const Form: React.FC<FormProps> = ({ onAddTask }) => {
         onChangeText={setTaskTime}
         keyboardType="numeric"
       />
-      <Button title="Add Task" onPress={handleAddTask} color="#007bff" />
+      <Button title="Add Event" onPress={handleAddTask} color="#007bff" />
     </View>
   );
 };
