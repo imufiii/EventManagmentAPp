@@ -3,14 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  Alert,
+
   Image,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { signOut } from "firebase/auth";
-import { AUTH } from "../firebaseConfig";
+
 
 const About: React.FC = () => {
   return (
