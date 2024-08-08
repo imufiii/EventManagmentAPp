@@ -46,7 +46,7 @@ const Login: React.FC<{ navigation: any }> = ({ navigation }) => {
       </TouchableOpacity>
       <View style={styles.signupContainer}>
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={styles.signupLink}>Don't have an account?</Text>
+          <Text style={styles.signupLink}>Don't have an account? SignUp</Text>
         </TouchableOpacity>
       </View>
     </View>

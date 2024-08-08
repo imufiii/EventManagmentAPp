@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   Linking,
   Modal,
-  Pressable,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
 
 const customPickerOptions = [
   { label: "Restaurants", value: "restaurants" },
@@ -27,6 +27,7 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("restaurants");
   const [tempCategory, setTempCategory] = useState(selectedCategory);
   const [isPickerVisible, setPickerVisible] = useState(false);
+  const navigation = useNavigation(); 
 
   const handleOpenGoogleMaps = () => {
     if (locationQuery.trim() !== "") {
@@ -47,6 +48,10 @@ const HomePage = () => {
   const handleCancel = () => {
     setTempCategory(selectedCategory);
     setPickerVisible(false);
+  };
+
+  const handleContactUsPress = () => {
+    navigation.navigate("ContactForm"); // Navigate to ContactForm screen
   };
 
   return (
@@ -130,7 +135,7 @@ const HomePage = () => {
 
       <TouchableOpacity
         style={styles.linkButton}
-        onPress={() => Linking.openURL("mailto:evetify@hmail.com")}
+        onPress={handleContactUsPress} // Use the handler here
       >
         <Text style={styles.linkText}>Contact Us</Text>
       </TouchableOpacity>

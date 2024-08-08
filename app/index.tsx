@@ -14,12 +14,13 @@ import {
   TaskProps,
 } from "../components/databse";
 import Header from "../components/Header";
-import Screen1 from "../components/Home";
+import HomePage from "../components/Home"; // Update this import
 import Tasks from "../components/Events";
 import Form from "../components/AddEvents";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import About from "../components/About";
+import ContactForm from "../components/ContactForm"; // Import ContactForm component
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -51,7 +52,7 @@ const HomeTabs: React.FC<{
     >
       <Tab.Screen
         name="Home"
-        component={Screen1}
+        component={HomePage} // Update this to HomePage
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
@@ -192,7 +193,7 @@ const App: React.FC = () => {
               name="About"
               component={About}
               options={({ navigation }) => ({
-                headerShown: true, 
+                headerShown: true,
                 headerLeft: () => (
                   <TouchableOpacity
                     style={{
@@ -211,6 +212,11 @@ const App: React.FC = () => {
                   </TouchableOpacity>
                 ),
               })}
+            />
+            <Stack.Screen
+              name="ContactForm"
+              component={ContactForm}
+              options={{ title: "Contact Us" }}
             />
           </>
         ) : (
