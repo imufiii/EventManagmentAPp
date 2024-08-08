@@ -51,7 +51,7 @@ const HomePage = () => {
   };
 
   const handleContactUsPress = () => {
-    navigation.navigate("ContactForm"); // Navigate to ContactForm screen
+    navigation.navigate("ContactForm"); 
   };
 
   return (
