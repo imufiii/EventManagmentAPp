@@ -135,7 +135,7 @@ const HomePage = () => {
 
       <TouchableOpacity
         style={styles.linkButton}
-        onPress={handleContactUsPress} // Use the handler here
+        onPress={handleContactUsPress} 
       >
         <Text style={styles.linkText}>Contact Us</Text>
       </TouchableOpacity>
